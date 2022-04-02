@@ -1,5 +1,6 @@
 import os
 import webbrowser
+import tkinter as tk
 from tkinter import messagebox
 import getpass as gp
 
@@ -33,4 +34,16 @@ def github(script):
         webbrowser.open("https://github.com/BrenoMartinsDeOliveiraVasconcelos/linver")
     else:
         messagebox.showinfo("Warning", "Cannot open default browser as root with normal user session.")
-        
+
+
+def text_shower(file):
+    # Função para mostrar o conteúdo de um arquivo em um textbox
+    root = tk.Tk()
+    root.title(f"{file}")
+    root.geometry("600x400")
+    text = tk.Text(root)
+    text.pack()
+    with open(file, "r") as f:
+        text.insert(tk.END, f.read())
+
+    root.mainloop()

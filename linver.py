@@ -210,6 +210,16 @@ Thank you for using this program, {user}! ^-^
         githubbutton.pack(fill=tk.X, side=tk.BOTTOM)
         #githubbutton.grid(row=6, column=2, columnspan=1, sticky="nsew")
 
+        # Criar um botão de licensa
+        licensebutton = tk.Button(root, text="License", bg="#ffffff", fg=fontcolor, 
+        command=lambda: text_shower(f"{script}/LICENSE.md"), activebackground="#e0e0e0", borderwidth=1, highlightthickness=0, activeforeground="#000000")
+        licensebutton.pack(fill=tk.X, side=tk.BOTTOM)
+
+
+        # Botao para mostrar detalhes em /tmp/linver/linver.info
+        infobutton = tk.Button(root, text="Info", bg="#ffffff", fg=fontcolor,
+        command=lambda: text_shower(f"/tmp/linver/linver.info"), activebackground="#e0e0e0", borderwidth=1, highlightthickness=0, activeforeground="#000000")
+        infobutton.pack(fill=tk.X, side=tk.BOTTOM)
 
         root.mainloop()
     elif '--clmode' in args:
