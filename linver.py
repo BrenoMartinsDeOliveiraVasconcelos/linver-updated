@@ -9,6 +9,7 @@ import psutil
 
 if "--clmode" not in args:
     import tkinter as tk
+    print("Now with updates!")
 
 # Adicionando um valor placeholder a lista args para caso nn seja passado nenhum argumento
 if len(args) == 1:
