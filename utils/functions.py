@@ -21,7 +21,7 @@ def linver_shell(script):
         except IndexError:
             pass
 
-    # os.system(f"rm -rf /tmp/linver")
+    os.system(f"rm -rf /tmp/linver")
     return info
 
 

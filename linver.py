@@ -6,6 +6,7 @@ import platform
 import getpass as gp
 import datetime as dt
 import psutil
+from screeninfo import get_monitors
 
 if "--clmode" not in args:
     import tkinter as tk
@@ -54,9 +55,11 @@ def main():
     disks = psutil.disk_partitions()
     disks_list = []
     disksmp = []
+    mountpoints = []
     for disk in disks:
         device = disk.device
         mount = disk.mountpoint
+        mountpoints.append(mount)
         if 'loop' in device.split("/")[-1]:
             pass
         else:
@@ -140,6 +143,11 @@ def main():
         disku += psutil.disk_usage(i).used / (1024 ** 3)
     diskt, disku = round(diskt, 2), round(disku, 2)
 
+    # Resolução da tela
+    res = []
+    for m in get_monitors():
+        res.append(f"{m.width}x{m.height}")
+
     linver = f"""{linux} 
 Version {distrover} {codename} (Kernel {kernelver})
 © {year}.
@@ -150,11 +158,14 @@ This machine is using {memused}GB of its {memtotal}GB RAM.
 There are {partitions} partitions mounted across {ndiscos} disk{'s' if ndiscos > 1 else ""}.
 ({', '.join(disks_list)}.)
 
+Mount points: {', '.join(mountpoints)}
+
 Disk usage: {disku}GB of {diskt}GB used ({round(disku/diskt*100, 2)}%)
 Host name: {platform.node()}  
 CPU: {cpui['name']} (Cache: {cpui['cache']}, cores: {cpui['cores']})      
 Model: {modelo}
 Desktop: {de}
+Screen resolution: {', '.join(res)}
 Uptime: {uptimestr}
 
 Thank you for using this program, {user}! ^-^
@@ -201,7 +212,7 @@ Thank you for using this program, {user}! ^-^
         # Criar botão de sair
         exitbutton = tk.Button(root, text="Ok", bg="#ffffff", fg=fontcolor, 
         command=exit, activebackground="#e0e0e0", borderwidth=1, highlightthickness=0, activeforeground="#000000")
-        exitbutton.pack(fill=tk.X)
+        exitbutton.pack(fill=tk.X, side=tk.BOTTOM)
         #exitbutton.grid(row=5, column=2, columnspan=1, sticky="nsew")
 
         # Criar um botão que redireciona para a página do github (https://github.com/BrenoMartinsDeOliveiraVasconcelos/linver)
@@ -214,12 +225,6 @@ Thank you for using this program, {user}! ^-^
         licensebutton = tk.Button(root, text="License", bg="#ffffff", fg=fontcolor, 
         command=lambda: text_shower(f"{script}/LICENSE.md"), activebackground="#e0e0e0", borderwidth=1, highlightthickness=0, activeforeground="#000000")
         licensebutton.pack(fill=tk.X, side=tk.BOTTOM)
-
-
-        # Botao para mostrar detalhes em /tmp/linver/linver.info
-        infobutton = tk.Button(root, text="Info", bg="#ffffff", fg=fontcolor,
-        command=lambda: text_shower(f"/tmp/linver/linver.info"), activebackground="#e0e0e0", borderwidth=1, highlightthickness=0, activeforeground="#000000")
-        infobutton.pack(fill=tk.X, side=tk.BOTTOM)
 
         root.mainloop()
     elif '--clmode' in args:
